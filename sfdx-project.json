@@ -2,10 +2,17 @@
   "packageDirectories": [
     {
       "path": "force-app",
-      "default": true
+      "default": true,
+      "package": "Zippex",
+      "versionName": "ver 1.0",
+      "versionNumber": "1.0.0.NEXT"
     }
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "51.0"
+  "sourceApiVersion": "51.0",
+  "packageAliases": {
+    "Zippex": "0Ho4T000000TN9JSAW",
+    "Zippex@1.0.0-1": "04t4T000001ZFgyQAG"
+  }
 }
