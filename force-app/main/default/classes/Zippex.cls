@@ -302,6 +302,31 @@ public class Zippex {
     );
   }
 
+  //  Adds ContentVersion VersionData to current Zip archive.
+  public void addContentVersion(String contentVersionId) {
+    ContentVersion file = [SELECT Title, FileExtension, VersionData  FROM ContentVersion where Id = :contentVersionId];
+    addFile(file.Title + '.' + file.FileExtension, file.VersionData);
+  }
+
+  // Converts Blob to HREF compatible string
+  public String downloadZipArchive() {
+    return 'data:application/zip;content-disposition:attachment;base64,' + EncodingUtil.base64Encode(getZipArchive());
+  }
+
+  // Accepts list of ContentVersions and builds zip archive, then returns the value for download
+  //@InvocableMethod(label='Generate and download a zip file from a ContentVersion Id collection')
+  public String downloadContentVersionList(String[] contentVersionIds) {
+    for (Integer i = contentVersionIds.size() - 1; i >= 0 ; i--) {
+      addContentVersion(contentVersionIds[i]);
+    }
+    return downloadZipArchive();
+  }
+
+  // Convience overload for addFile
+  public void addFile(String fileName, Blob fileData) {
+    addFile(fileName, fileData, null);
+  }
+
   //  Adds a new file to the current Zip archive.
   public void addFile(String fileName, Blob fileData, String crc32) {
     if (zipFileMap.containsKey(fileName)) {

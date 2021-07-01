@@ -210,4 +210,19 @@ private class ZippexTests {
         .toString()
     );
   }
+
+  @isTest
+  static void contentVersionTest() {
+    String testData = 'Lorem ipsum';
+    ContentVersion file1 = new ContentVersion();
+    file1.Title = 'Test.txt';
+    file1.PathOnClient = 'C:\test.txt';
+    file1.VersionData = Blob.valueOf(testData);
+    insert file1;
+    List<String> testIds = new List<String>();
+    testIds.add(file1.Id);
+    Zippex testZippex = new Zippex();
+    String outputZip = testZippex.downloadContentVersionList(testIds);
+    System.debug(outputZip);
+  }
 }
