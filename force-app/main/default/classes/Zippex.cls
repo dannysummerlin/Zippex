@@ -308,18 +308,36 @@ public class Zippex {
     addFile(file.Title + '.' + file.FileExtension, file.VersionData);
   }
 
-  // Converts Blob to HREF compatible string
-  public String downloadZipArchive() {
-    return 'data:application/zip;content-disposition:attachment;base64,' + EncodingUtil.base64Encode(getZipArchive());
+  //  Adds ContentVersions VersionData to current Zip archive.
+  public void addContentVersions(List<String> contentVersionIds) {
+    List<ContentVersion> files = [SELECT Title, FileExtension, VersionData  FROM ContentVersion where Id in :contentVersionIds];
+    for(Integer i = files.size() - 1; i >= 0; i--) {
+        addFile(files[i].Title + '.' + files[i].FileExtension, files[i].VersionData);        
+    }
   }
 
-  // Accepts list of ContentVersions and builds zip archive, then returns the value for download
-  //@InvocableMethod(label='Generate and download a zip file from a ContentVersion Id collection')
-  public String downloadContentVersionList(String[] contentVersionIds) {
-    for (Integer i = contentVersionIds.size() - 1; i >= 0 ; i--) {
-      addContentVersion(contentVersionIds[i]);
-    }
-    return downloadZipArchive();
+  // Converts Blob to ContentDistribution with expiration
+  public String downloadZipArchive(String fileName) {
+    DateTime t = DateTime.Now().AddDays(7); // default expiration of 7 days
+    return downloadZipArchive(filename, t);
+  }
+  public String downloadZipArchive(String fileName, DateTime expireDate) {
+    ContentVersion saveFile = new ContentVersion();
+    saveFile.Title = fileName;
+    saveFile.PathOnClient = fileName;
+    saveFile.VersionData = getZipArchive();
+    insert saveFile;
+    ContentDistribution newDist = new ContentDistribution();
+    newDist.ContentVersionId = saveFile.Id;
+    newDist.Name = 'External Link - ' + fileName;
+    newDist.PreferencesNotifyOnVisit = false;
+    newDist.PreferencesAllowViewInBrowser = true;
+    newDist.PreferencesAllowOriginalDownload=true;
+    newDist.ExpiryDate = expireDate;
+    newDist.PreferencesExpires = true;
+    insert newDist;
+
+    return newDist.DistributionPublicUrl;
   }
 
   // Convience overload for addFile

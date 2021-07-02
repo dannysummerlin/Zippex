@@ -155,7 +155,7 @@ private class ZippexTests {
     );
 
     try {
-      Lead l = new Lead(LastName = 'Test', Company = 'Test');
+      Contact l = new Contact(LastName = 'Test');
       insert l;
 
       Attachment att = new Attachment(
@@ -212,17 +212,27 @@ private class ZippexTests {
   }
 
   @isTest
-  static void contentVersionTest() {
+  static void contentVersionActionTest() {
     String testData = 'Lorem ipsum';
     ContentVersion file1 = new ContentVersion();
-    file1.Title = 'Test.txt';
-    file1.PathOnClient = 'C:\test.txt';
+    file1.Title = 'Test';
+    file1.PathOnClient = 'C:\\test.txt';
     file1.VersionData = Blob.valueOf(testData);
     insert file1;
+    ContentVersion file2 = new ContentVersion();
+    file2.Title = 'Second File';
+    file2.PathOnClient = 'C:\\secondfile.xml';
+    file2.VersionData = Blob.valueOf(testData);
+  insert file2;
     List<String> testIds = new List<String>();
     testIds.add(file1.Id);
-    Zippex testZippex = new Zippex();
-    String outputZip = testZippex.downloadContentVersionList(testIds);
+    testIds.add(file2.Id);
+    List<ZippexAction.ZippexInput> inputs = new List<ZippexAction.ZippexInput>();
+    inputs.add(new ZippexAction.ZippexInput());
+    inputs[0].contentVersionIds = testIds;
+    inputs[0].fileName = 'test.zip';
+    // inputs[0].expireDate = DateTime.Now().AddDays(1);
+    List<String> outputZip = ZippexAction.downloadContentVersionList(inputs);
     System.debug(outputZip);
   }
 }
