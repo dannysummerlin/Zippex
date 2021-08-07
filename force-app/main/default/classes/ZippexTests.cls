@@ -215,15 +215,15 @@ private class ZippexTests {
   static void contentVersionActionTest() {
     String testData = 'Lorem ipsum';
     ContentVersion file1 = new ContentVersion();
-    file1.Title = 'Test';
-    file1.PathOnClient = 'C:\\test.txt';
-    file1.VersionData = Blob.valueOf(testData);
-    insert file1;
+      file1.Title = 'Test';
+      file1.PathOnClient = 'C:\\test.txt';
+      file1.VersionData = Blob.valueOf(testData);
+      insert file1;
     ContentVersion file2 = new ContentVersion();
-    file2.Title = 'Second File';
-    file2.PathOnClient = 'C:\\secondfile.xml';
-    file2.VersionData = Blob.valueOf(testData);
-  insert file2;
+      file2.Title = 'Second File';
+      file2.PathOnClient = 'C:\\secondfile.xml';
+      file2.VersionData = Blob.valueOf(testData);
+      insert file2;
     List<String> testIds = new List<String>();
     testIds.add(file1.Id);
     testIds.add(file2.Id);
@@ -231,6 +231,7 @@ private class ZippexTests {
     inputs.add(new ZippexAction.ZippexInput());
     inputs[0].contentVersionIds = testIds;
     inputs[0].fileName = 'test.zip';
+    inputs[0].email = 'testing@summerlin.co';
     // inputs[0].expireDate = DateTime.Now().AddDays(1);
     List<String> outputZip = ZippexAction.downloadContentVersionList(inputs);
     System.debug(outputZip);
