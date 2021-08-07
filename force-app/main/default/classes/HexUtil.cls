@@ -382,6 +382,9 @@ public class HexUtil {
     if(Limits.getHeapSize() + 1000 >= Limits.getLimitHeapSize()) {
       throw new ZippexQueue.ZippexException('Zip file size too large (System: Apex heap size too large)');
     }
+    if(Limits.getCpuTime() + 100 >= Limits.getLimitCpuTime()) {
+      throw new ZippexQueue.ZippexException('Zip file elements too large (System: Apex CPU time limit hit)');
+    }
     String[] hexValues = new List<String>{
       '0',
       '1',
