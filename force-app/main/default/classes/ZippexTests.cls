@@ -231,8 +231,7 @@ private class ZippexTests {
     inputs.add(new ZippexAction.ZippexInput());
     inputs[0].contentVersionIds = testIds;
     inputs[0].fileName = 'test.zip';
-    inputs[0].email = 'testing@summerlin.co';
-    // inputs[0].expireDate = DateTime.Now().AddDays(1);
+    inputs[0].targetEmail = 'testing@summerlin.co';
     List<String> outputZip = ZippexAction.downloadContentVersionList(inputs);
     System.debug(outputZip);
   }

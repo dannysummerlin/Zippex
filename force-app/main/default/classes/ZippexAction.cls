@@ -11,13 +11,15 @@ public class ZippexAction {
 
 // Apex-defined data type to specify expiration and filename
     public class ZippexInput {
-        @AuraEnabled @InvocableVariable
-        public String fileName;
-        @AuraEnabled @InvocableVariable(description='The notification email target')
-        public String email;
-        @AuraEnabled @InvocableVariable
+        @AuraEnabled @InvocableVariable(label='ContentVersion ID Collection' description='A collection of ContentVersion IDs to zip together' required=true)
         public List<String> contentVersionIds;
-        @AuraEnabled @InvocableVariable
+        @AuraEnabled @InvocableVariable(label='Target Email' description='The notification email target' required=true)
+        public String targetEmail;
+        @AuraEnabled @InvocableVariable(label='Sender Email' description='The notification email target')
+        public String senderEmail;
+        @AuraEnabled @InvocableVariable(label='Zip File Name')
+        public String fileName;
+        @AuraEnabled @InvocableVariable(label='Public Link Expiration' description='By default 7 days after generating the link it will expire, but you can set a more specific date')
         public DateTime expireDate;
     }
 }
