@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+      <fullName>ContentVersionIDs__c</fullName>
+      <externalId>false</externalId>
+      <label>Content Version IDs</label>
+      <length>512</length>
+      <required>false</required>
+      <type>LongTextArea</type>
+      <unique>false</unique>
+      <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>FileURL__c</fullName>
+        <externalId>false</externalId>
+        <label>File URL</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>NotificationEmail__c</fullName>
+        <externalId>false</externalId>
+        <label>Notification Email</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+    </fields>
+    <label>Zip File</label>
+    <nameField>
+        <label>Zip File Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Zip Files</pluralLabel>
+    <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>
