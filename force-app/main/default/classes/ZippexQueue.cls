@@ -4,7 +4,6 @@ public class ZippexQueue implements Queueable {
   public void execute(QueueableContext context) {
     List<Zippex_ZipFile__c> outputRecords = new List<Zippex_ZipFile__c>();
     List<Messaging.Email> notificationQueue = new List<Messaging.Email>();
-System.debug('executing queue');
     try {
       for (Integer ii = this.zippexParams.size() - 1; ii >= 0 ; ii--) {
         Zippex ZipFile = new Zippex();
@@ -36,6 +35,7 @@ System.debug('executing queue');
         notification.setPlainTextBody('Your zip file has been created: ' + outputRecords[ii].FileURL__c);
         notification.setHtmlBody('Your zip file <b> ' + outputRecords[ii].Name +' </b>has been created.<p>'+
          'To view your file <a href="' + outputRecords[ii].FileURL__c + '">click here.</a>');
+        notificationQueue.add(notificationQueue);
       }
       Messaging.sendEmail(notificationQueue);
     } catch (Exception e) {
