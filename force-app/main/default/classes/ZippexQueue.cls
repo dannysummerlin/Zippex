@@ -23,6 +23,7 @@ public class ZippexQueue implements Queueable {
         Zippex_ZipFile__c file = new Zippex_ZipFile__c();
         file.Name = this.zippexParams[jj].fileName;
         file.NotificationEmail__c = this.zippexParams[jj].email;
+        file.ContentVersionIDs__c = String.join(this.zippexParams[jj].contentVersionIds, ', ');
         file.FileURL__c = ZipFile.downloadZipArchive(this.zippexParams[jj].fileName, this.zippexParams[jj].expireDate);
         outputRecords.add(file);
       }
@@ -30,12 +31,13 @@ public class ZippexQueue implements Queueable {
       for (Integer ii = outputRecords.size() - 1; ii >= 0; ii++) {
         Messaging.SingleEmailMessage notification = new Messaging.SingleEmailMessage();
         notification.setToAddresses(new List<String> { outputRecords[ii].NotificationEmail__c });
-        notification.setReplyTo('zippex@salesforce.com');
+        notification.setReplyTo('noreply@zippex.app');
         notification.setSenderDisplayName('Zippex File Generator');
         notification.setSubject('Zip File Created: ' + outputRecords[ii].Name);
         notification.setBccSender(false);
         notification.setUseSignature(false);
         String fileURL = URL.getSalesforceBaseUrl().toExternalForm() + '/' + outputRecords[ii].Id;
+        System.debug(fileURL);
         notification.setPlainTextBody('Your zip file has been created: ' + fileURL);
         notification.setHtmlBody('Your zip file <b> ' + outputRecords[ii].Name +' </b>has been created.<p>'+
          'To view your file <a href="' + fileURL + '">click here.</a>');
