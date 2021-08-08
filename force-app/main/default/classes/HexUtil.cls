@@ -52,9 +52,7 @@ public class HexUtil {
 
 	//Hex to Int Little Endian
 	public static Integer hexToIntLE(String hexStr) {
-		//Long mask = 4294967295L; //FFFFFFFF
 		Integer result = 0;
-
 		for (Integer j = 0; j < hexStr.length(); j += 2) {
 			result |=
 				(((hexStr.charAt(j) & 15) + (hexStr.charAt(j) >>> 6) * 9)) <<
@@ -69,9 +67,9 @@ public class HexUtil {
 	//Int to Little Endian Hex
 	public static String intToHexLE(Integer decNumber, Integer sizeInBytes) {
 		Zippex.checkLimits();
-		String[] hexValues = new List<String>{ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };
-		String hexStr = '';
-		Integer byteLocation = 0;
+		static String[] hexValues = new List<String>{ '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };
+		transient String hexStr = '';
+		transient Integer byteLocation = 0;
 		while (decNumber != 0 && hexStr.length() < sizeInBytes * 2) {
 			hexStr += hexValues[(decNumber >>> 4) & 15] + hexValues[decNumber & 15];
 			decNumber >>>= 8;

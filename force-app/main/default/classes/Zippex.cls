@@ -15,7 +15,7 @@ public class Zippex {
 		checkLimits();
 		if (zipFileMap.containsKey(fileName))
 			removeFile(fileName);
-		FileObject tempFileObject = new FileObject();
+		transient FileObject tempFileObject = new FileObject();
 		tempFileObject.lastModTime = HexUtil.intToHexLE(getCurrentTime(), 2);
 		tempFileObject.lastModDate = HexUtil.intToHexLE(getCurrentDate(), 2);
 		tempFileObject.crc32 = crc32;
@@ -27,22 +27,26 @@ public class Zippex {
 		tempFileObject.internalFileAtt = '0000';
 		tempFileObject.externalFileAtt = '0000A481';
 		tempFileObject.fileName = EncodingUtil.convertToHex(Blob.valueOf(fileName));
+			fileName = null;
 		tempFileObject.fileNameLength = HexUtil.intToHexLE( tempFileObject.fileName.length() / 2, 2 );
 		tempFileObject.extraField = '';
 		tempFileObject.fileComment = '';
 		tempFileObject.compressedFileData = EncodingUtil.convertToHex(fileData);
+			fileData = null;
 		tempFileObject.fileDataInZipStr = false;
 		zipFileMap.put(fileName, tempFileObject);
+			tempFileObject = null;
 	}
 
 	public void removeFile(String fileName) {
 		if (!zipFileMap.containsKey(fileName)) { return; }
-		FileObject tempFileObject = zipFileMap.get(fileName);
+		transient FileObject tempFileObject = zipFileMap.get(fileName);
 		if (tempFileObject.fileDataInZipStr) {
 			Integer offsetOfLH = HexUtil.hexToIntLE(tempFileObject.offsetOfLH);
 			tempFileObject.readLocalFileHeader(zipFileString, offsetOfLH);
 			zipFileString = zipFileString.left(offsetOfLH * 2) + zipFileString.substring(tempFileObject.l_offsetToNextRecord * 2);
 			recalculateCentralDirOffsets( offsetOfLH, offsetOfLH - tempFileObject.l_offsetToNextRecord );
+			tempFileObject = null;
 		}
 		zipFileMap.remove(fileName);
 	}
